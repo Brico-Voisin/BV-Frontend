@@ -1,16 +1,35 @@
+import 'package:brico_voisin/model/product.dart';
 import 'package:brico_voisin/provider/product_provider.dart';
+import 'package:brico_voisin/widget/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:brico_voisin/model/product.dart';
 
-class MyListingProduct extends StatefulWidget {
+class MyListingProduct extends StatelessWidget {
   const MyListingProduct({super.key});
 
   @override
-  _MyListingProductState createState() => _MyListingProductState();
+  Widget build(BuildContext context) {
+    return NavigationMenu(
+      pages: [
+        MyListingProductContent(), // Ta page de liste de produits
+        const Center(child: Text("Favoris")),
+        const Center(child: Text("Locations")),
+        const Center(child: Text("Messages")),
+        const Center(child: Text("Profil")),
+      ],
+    );
+  }
 }
 
-class _MyListingProductState extends State<MyListingProduct> {
+class MyListingProductContent extends StatefulWidget {
+  const MyListingProductContent({super.key});
+
+  @override
+  _MyListingProductContentState createState() =>
+      _MyListingProductContentState();
+}
+
+class _MyListingProductContentState extends State<MyListingProductContent> {
   @override
   void initState() {
     super.initState();
@@ -48,7 +67,6 @@ class _MyListingProductState extends State<MyListingProduct> {
                       Text('Créé le: ${product.createdAt.toString()}'),
                     ],
                   ),
-                  // Vous pouvez ajouter plus de fonctionnalités ici, comme un bouton pour voir plus de détails
                 ),
               );
             },
