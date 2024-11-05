@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NavigationMenu extends StatefulWidget {
   final List<Widget> pages;
@@ -33,19 +34,20 @@ class _NavigationMenuState extends State<NavigationMenu> {
               padding: const EdgeInsets.only(bottom: 0, left: 20, right: 20),
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFCEAD6),
+                  color: const Color(0xFFFFECDA),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(0),
+                  ),
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 4,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 5,
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
+                      color: Colors.black,
+                      blurRadius: 0,
+                      offset: const Offset(12, 12), // Ombre
                     ),
                   ],
                 ),
@@ -60,12 +62,16 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   type: BottomNavigationBarType.fixed,
                   elevation: 0,
                   items: [
-                    _buildBottomNavigationBarItem(Icons.explore, "Explorer", 0),
-                    _buildBottomNavigationBarItem(Icons.favorite, "Favoris", 1),
                     _buildBottomNavigationBarItem(
-                        Icons.add_box, "Locations", 2),
-                    _buildBottomNavigationBarItem(Icons.message, "Messages", 3),
-                    _buildBottomNavigationBarItem(Icons.person, "Profil", 4),
+                        'assets/images/home.svg', "Explorer", 0),
+                    _buildBottomNavigationBarItem(
+                        'assets/images/favourite.svg', "Favoris", 1),
+                    _buildBottomNavigationBarItem(
+                        'assets/images/add-rectangle.svg', "Locations", 2),
+                    _buildBottomNavigationBarItem(
+                        'assets/images/chat.svg', "Messages", 3),
+                    _buildBottomNavigationBarItem(
+                        'assets/images/profile.svg', "Profil", 4),
                   ],
                 ),
               ),
@@ -77,7 +83,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   }
 
   BottomNavigationBarItem _buildBottomNavigationBarItem(
-      IconData icon, String label, int index) {
+      String assetPath, String label, int index) {
     return BottomNavigationBarItem(
       label: label,
       icon: Container(
@@ -86,9 +92,10 @@ class _NavigationMenuState extends State<NavigationMenu> {
           color: _selectedIndex == index ? Colors.black : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(
-          icon,
+        child: SvgPicture.asset(
+          assetPath,
           color: _selectedIndex == index ? Colors.white : Colors.black,
+          height: 24, // Ajustez la hauteur selon vos besoins
         ),
       ),
     );
