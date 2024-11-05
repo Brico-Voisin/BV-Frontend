@@ -69,8 +69,17 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
                       const SizedBox(height: 40),
                       Delayanimation(
                         delay: 1500,
-                        child: Image.asset("assets/images/logindecoration.png",
-                            width: 575),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return Image.asset(
+                              "assets/images/logindecoration.png",
+                              width: constraints
+                                  .maxWidth, // Utilise la largeur maximale
+                              fit: BoxFit
+                                  .cover, // Adapte l'image pour couvrir toute la largeur
+                            );
+                          },
+                        ),
                       ),
                       const SizedBox(height: 40),
                       Delayanimation(
@@ -172,7 +181,7 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
                 double bottomPosition = -MediaQuery.of(context).size.height *
                         0.9 *
                         (1 - _animation.value) -
-                    180; // Décalage supplémentaire pour enfoncer
+                    270; // Décalage supplémentaire pour enfoncer
                 return Positioned(
                   left: 0,
                   right: 0,

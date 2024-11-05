@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:brico_voisin/screen/Home.dart'; // Importez votre page d'accueil
 import 'package:brico_voisin/screen/listing_product.dart';
 
 class LoginForm extends StatefulWidget {
@@ -18,6 +19,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
+        height: MediaQuery.of(context).size.height * 0.9,
         width: MediaQuery.of(context).size.width * 0.9,
         margin: const EdgeInsets.fromLTRB(10, 0, 25, 0),
         padding: const EdgeInsets.all(30),
@@ -44,13 +46,34 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'CONNEXION',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'AkiraExpanded',
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center, // Centre le contenu
+                crossAxisAlignment: CrossAxisAlignment.center, // Centre verticalement
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MyHome(), // Naviguer vers la page d'accueil
+                        ),
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/arrow-left.svg', // Remplacez par le chemin de votre flèche SVG
+                      height: 32, // Ajustez la taille selon vos besoins
+                    ),
+                  ),
+                  const SizedBox(width: 8), // Espacement entre l'icône et le texte
+                  const Text(
+                    'CONNEXION',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'AkiraExpanded',
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               _buildTextField(
@@ -82,16 +105,17 @@ class _LoginFormState extends State<LoginForm> {
                 text: 'Connecte-toi',
                 onPressed: _submitForm,
               ),
-              const SizedBox(height: 10),
-              const Text('Mot de passe oublié ?',
+              const SizedBox(height: 15),
+              const Text(
+                'Mot de passe oublié ?',
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                   color: Colors.black,
                   fontFamily: 'Sora',
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -106,7 +130,7 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(width: 16), // Espacement entre les boutons
                   Expanded(
                     child: _buildSvgButton(
-                      asset: 'assets/images/apple.svg', // Chemin vers votre fichier SVG d'Apple
+                      asset: 'assets/images/apple.svg',
                       onPressed: () {
                         // Action pour Apple
                       },
@@ -137,7 +161,7 @@ class _LoginFormState extends State<LoginForm> {
           BoxShadow(
             color: Colors.black,
             blurRadius: 0,
-            offset: const Offset(2, 2),
+            offset: const Offset(3, 3),
           ),
         ],
       ),
@@ -155,7 +179,6 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  // Changez le type de retour de ElevatedButton à Widget
   Widget _buildElevatedButton({
     required String text,
     required VoidCallback onPressed,
@@ -169,7 +192,7 @@ class _LoginFormState extends State<LoginForm> {
           BoxShadow(
             color: Colors.black,
             blurRadius: 0,
-            offset: const Offset(2, 2), // Ombre
+            offset: const Offset(3, 3), // Ombre
           ),
         ],
       ),
@@ -178,7 +201,7 @@ class _LoginFormState extends State<LoginForm> {
           text,
           style: const TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.bold, // Mettre le texte en gras
             color: Colors.black, // Couleur du texte en noir
           ),
         ),
@@ -195,21 +218,20 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-
-
   Widget _buildSvgButton({
     required String asset,
     required VoidCallback onPressed,
   }) {
     return Container(
       decoration: BoxDecoration(
+        color: const Color(0xFFFFD4AB),
         borderRadius: BorderRadius.circular(18), // Bordure arrondie
         border: Border.all(color: Colors.black, width: 2), // Bordure noire
         boxShadow: [
           BoxShadow(
             color: Colors.black,
             blurRadius: 0,
-            offset: const Offset(2, 2), // Ombre
+            offset: const Offset(3, 3), // Ombre
           ),
         ],
       ),
@@ -225,12 +247,11 @@ class _LoginFormState extends State<LoginForm> {
         ),
         child: SvgPicture.asset(
           asset,
-          height: 20, // Ajustez la hauteur selon vos besoins
+          height: 25, // Ajustez la hauteur selon vos besoins
         ),
       ),
     );
   }
-
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
