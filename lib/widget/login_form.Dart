@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:brico_voisin/screen/listing_product.dart';
 
 class LoginForm extends StatefulWidget {
@@ -13,161 +14,234 @@ class _LoginFormState extends State<LoginForm> {
   String _email = '';
   String _password = '';
 
-@override
-Widget build(BuildContext context) {
-  return Center(
-    child: Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      margin: const EdgeInsets.fromLTRB(10, 0, 25, 0),
-      padding: const EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-        border: Border.all(
-          color: Colors.black,
-          width: 4,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black, // Couleur de l'ombre
-            blurRadius: 0, // Flou de l'ombre
-            offset: const Offset(10, 15), // Décalage de l'ombre (x, y)
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        margin: const EdgeInsets.fromLTRB(10, 0, 25, 0),
+        padding: const EdgeInsets.all(30),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFECDA),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-        ],
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'CONNEXION',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'AkiraExpanded',
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildTextField(
-              hint: 'Email',
-              icon: Icons.email,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer votre email';
-                }
-                return null;
-              },
-              onSaved: (value) => _email = value ?? '',
-            ),
-            const SizedBox(height: 10),
-            _buildTextField(
-              hint: 'Mot de passe',
-              icon: Icons.lock,
-              obscureText: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer votre mot de passe';
-                }
-                return null;
-              },
-              onSaved: (value) => _password = value ?? '',
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              child: const Text('Connecte-toi'),
-              onPressed: _submitForm,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFD4AB),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text('Mot de passe oublié?'),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  child: const Text('G'),
-                  onPressed: () {
-                    // Action pour Google
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFD4AB),
-                  ),
-                ),
-                ElevatedButton(
-                  child: const Text('Apple'),
-                  onPressed: () {
-                    // Action pour Apple
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFD4AB),
-                  ),
-                ),
-              ],
+          border: Border.all(
+            color: Colors.black,
+            width: 4,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 0,
+              offset: const Offset(10, 15),
             ),
           ],
         ),
-      ),
-    ),
-  );
-}
-
-Widget _buildTextField({
-  required String hint,
-  required IconData icon,
-  bool obscureText = false,
-  FormFieldValidator<String>? validator,
-  FormFieldSetter<String>? onSaved,
-}) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(color: Colors.black, width: 2),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black,
-          blurRadius: 0,
-          offset: const Offset(2, 2),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'CONNEXION',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'AkiraExpanded',
+                ),
+              ),
+              const SizedBox(height: 20),
+              _buildTextField(
+                hint: 'Email',
+                icon: Icons.email,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer votre email';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _email = value ?? '',
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
+                hint: 'Mot de passe',
+                icon: Icons.lock,
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer votre mot de passe';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _password = value ?? '',
+              ),
+              const SizedBox(height: 20),
+              _buildElevatedButton(
+                text: 'Connecte-toi',
+                onPressed: _submitForm,
+              ),
+              const SizedBox(height: 10),
+              const Text('Mot de passe oublié ?',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                  fontFamily: 'Sora',
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: _buildSvgButton(
+                      asset: 'assets/images/google.svg',
+                      onPressed: () {
+                        // Action pour Google
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16), // Espacement entre les boutons
+                  Expanded(
+                    child: _buildSvgButton(
+                      asset: 'assets/images/apple.svg', // Chemin vers votre fichier SVG d'Apple
+                      onPressed: () {
+                        // Action pour Apple
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ],
-    ),
-    child: TextFormField(
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hint,
-        prefixIcon: Icon(icon),
-        border: InputBorder.none, // Supprimer la bordure par défaut
-        contentPadding: const EdgeInsets.all(15), // Padding interne
       ),
-      validator: validator,
-      onSaved: onSaved,
-    ),
-  );
-}
+    );
+  }
+
+  Widget _buildTextField({
+    required String hint,
+    required IconData icon,
+    bool obscureText = false,
+    FormFieldValidator<String>? validator,
+    FormFieldSetter<String>? onSaved,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFECDA),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.black, width: 2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 0,
+            offset: const Offset(2, 2),
+          ),
+        ],
+      ),
+      child: TextFormField(
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          hintText: hint,
+          prefixIcon: Icon(icon),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(25),
+        ),
+        validator: validator,
+        onSaved: onSaved,
+      ),
+    );
+  }
+
+  // Changez le type de retour de ElevatedButton à Widget
+  Widget _buildElevatedButton({
+    required String text,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFFF5935),
+        borderRadius: BorderRadius.circular(18), // Bordure arrondie
+        border: Border.all(color: Colors.black, width: 2), // Bordure noire
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 0,
+            offset: const Offset(2, 2), // Ombre
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Colors.black, // Couleur du texte en noir
+          ),
+        ),
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFFF5935), // Couleur de fond
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18), // Assurez-vous que cela correspond au Container
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 100), // Padding
+          elevation: 0, // Réglez l'élévation à 0 ici
+        ),
+      ),
+    );
+  }
 
 
+
+  Widget _buildSvgButton({
+    required String asset,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18), // Bordure arrondie
+        border: Border.all(color: Colors.black, width: 2), // Bordure noire
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 0,
+            offset: const Offset(2, 2), // Ombre
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFFFD4AB), // Couleur de fond
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18), // Assurez-vous que cela correspond au Container
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0), // Padding
+          elevation: 0, // Supprime l'élévation
+        ),
+        child: SvgPicture.asset(
+          asset,
+          height: 20, // Ajustez la hauteur selon vos besoins
+        ),
+      ),
+    );
+  }
 
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Ici, vous pouvez utiliser _email et _password pour la logique de connexion
       print('Email: $_email, Password: $_password');
       Navigator.push(
         context,
-         MaterialPageRoute(
-         builder: (context) => const MyListingProduct(),
+        MaterialPageRoute(
+          builder: (context) => const MyListingProduct(),
         ),
-          );
+      );
     }
   }
 }

@@ -11,7 +11,7 @@ class MyListingProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return NavigationMenu(
       pages: [
-        MyListingProductContent(), // Ta page de liste de produits
+        MyListingProductContent(),
         const Center(child: Text("Favoris")),
         const Center(child: Text("Locations")),
         const Center(child: Text("Messages")),

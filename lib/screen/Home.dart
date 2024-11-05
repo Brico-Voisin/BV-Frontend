@@ -21,11 +21,13 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
-    );
-    _animation = Tween<double>(begin: 1, end: 0).animate(_controller)
-      ..addListener(() {
+    )..addListener(() {
         setState(() {});
       });
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
   }
 
   @override
@@ -51,127 +53,138 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
       backgroundColor: const Color(0xFFFFB020),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: SizedBox(
-              child: Column(
-                children: [
-                  const SizedBox(height: 90),
-                  Delayanimation(
-                    delay: 1500,
-                    child: Image.asset("assets/images/Bricovoisins.png",
-                        width: 262),
-                  ),
-                  const SizedBox(height: 40),
-                  Delayanimation(
-                    delay: 1500,
-                    child: Image.asset("assets/images/logindecoration.png",
-                        width: 575),
-                  ),
-                  const SizedBox(height: 40),
-                  Delayanimation(
-                    delay: 1000,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 10),
-                      child: const Text(
-                        "PARTAGEZ, LOUEZ, CONSTRUISEZ L'AVENIR",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontFamily: 'AkiraExpanded',
-                        ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 90),
+                      Delayanimation(
+                        delay: 1500,
+                        child: Image.asset("assets/images/Bricovoisins.png",
+                            width: 262),
                       ),
-                    ),
-                  ),
-                  Delayanimation(
-                    delay: 4500,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 24, horizontal: 24),
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFD4AB),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            side:
-                                const BorderSide(color: Colors.black, width: 2),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 15),
-                          shadowColor: Colors.black,
-                          elevation: 10,
-                        ),
-                        child: const Text(
-                          'Inscrivez-vous',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontFamily: 'Sora',
-                          ),
-                        ),
-                        onPressed: () {
-                          // Navigation vers la page d'inscription
-                        },
+                      const SizedBox(height: 40),
+                      Delayanimation(
+                        delay: 1500,
+                        child: Image.asset("assets/images/logindecoration.png",
+                            width: 575),
                       ),
-                    ),
-                  ),
-                  Delayanimation(
-                    delay: 0,
-                    child: Text.rich(
-                      TextSpan(
-                        text: "Déjà inscrit ? ",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Sora',
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "Connectez-vous",
-                            style: const TextStyle(
+                      const SizedBox(height: 40),
+                      Delayanimation(
+                        delay: 1000,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: const Text(
+                            "PARTAGEZ, LOUEZ, CONSTRUISEZ L'AVENIR",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
                               fontWeight: FontWeight.w800,
-                              decoration: TextDecoration.underline,
+                              color: Colors.black,
+                              fontSize: 24,
+                              fontFamily: 'AkiraExpanded',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Delayanimation(
+                        delay: 2500,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 24, horizontal: 24),
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFFD4AB),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                side: const BorderSide(
+                                    color: Colors.black, width: 2),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 15),
+                              shadowColor: Colors.black,
+                              elevation: 10,
+                            ),
+                            child: const Text(
+                              'Inscrivez-vous',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                                fontFamily: 'Sora',
+                              ),
+                            ),
+                            onPressed: () {
+                              // Navigation vers la page d'inscription
+                            },
+                          ),
+                        ),
+                      ),
+                      Delayanimation(
+                        delay: 0,
+                        child: Text.rich(
+                          TextSpan(
+                            text: "Déjà inscrit ? ",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                              fontSize: 16,
                               fontFamily: 'Sora',
                             ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = _toggleLogin,
+                            children: [
+                              TextSpan(
+                                text: "Connectez-vous",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  decoration: TextDecoration.underline,
+                                  fontFamily: 'Sora',
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = _toggleLogin,
+                              ),
+                            ],
                           ),
-                        ],
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
           if (_showLogin)
             Positioned.fill(
               child: GestureDetector(
                 onTap: _toggleLogin,
                 child: Container(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.2),
                 ),
               ),
             ),
           if (_showLogin)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Transform.translate(
-                offset: Offset(
-                    0,
-                    _animation.value *
-                        MediaQuery.of(context).size.height *
-                        0.7),
-                child: LoginForm(),
-              ),
+            AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                double bottomPosition = -MediaQuery.of(context).size.height *
+                        0.9 *
+                        (1 - _animation.value) -
+                    180; // Décalage supplémentaire pour enfoncer
+                return Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: bottomPosition,
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
+                    child: LoginForm(),
+                  ),
+                );
+              },
             ),
         ],
       ),
