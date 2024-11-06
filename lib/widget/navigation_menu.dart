@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:brico_voisin/utilities/page_manager.dart';
 
 class NavigationMenu extends StatefulWidget {
   final List<Widget> pages;
@@ -25,7 +26,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       backgroundColor: const Color(0xFFFFB020),
       body: Stack(
         children: [
-          widget.pages[_selectedIndex], // Utiliser les pages passées
+          widget.pages[_selectedIndex],
           Positioned(
             left: 0,
             right: 0,
@@ -95,7 +96,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
         child: SvgPicture.asset(
           assetPath,
           color: _selectedIndex == index ? Colors.white : Colors.black,
-          height: 24, // Ajustez la hauteur selon vos besoins
+          height: 24,
         ),
       ),
     );

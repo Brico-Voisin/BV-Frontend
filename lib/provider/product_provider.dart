@@ -31,7 +31,6 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
-  // Vous pouvez ajouter d'autres méthodes ici, comme fetchProductsByUser
   Future<void> fetchProductsByUser(String userId) async {
     _isLoading = true;
     _error = '';

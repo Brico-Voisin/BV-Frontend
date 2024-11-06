@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:brico_voisin/screen/Home.dart'; // Importez votre page d'accueil
+import 'package:brico_voisin/screen/Home.dart';
 import 'package:brico_voisin/screen/listing_product.dart';
+import 'package:brico_voisin/widget/navigation_menu.dart';
+import 'package:brico_voisin/utilities/page_manager.dart';
+
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -60,8 +63,8 @@ class _LoginFormState extends State<LoginForm> {
                       );
                     },
                     child: SvgPicture.asset(
-                      'assets/images/arrow-left.svg', // Remplacez par le chemin de votre flèche SVG
-                      height: 32, // Ajustez la taille selon vos besoins
+                      'assets/images/arrow-left.svg',
+                      height: 32,
                     ),
                   ),
                   const SizedBox(width: 8), // Espacement entre l'icône et le texte
@@ -209,10 +212,10 @@ class _LoginFormState extends State<LoginForm> {
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFFFF5935), // Couleur de fond
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18), // Assurez-vous que cela correspond au Container
+            borderRadius: BorderRadius.circular(18),
           ),
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 100), // Padding
-          elevation: 0, // Réglez l'élévation à 0 ici
+          elevation: 0,
         ),
       ),
     );
@@ -240,14 +243,14 @@ class _LoginFormState extends State<LoginForm> {
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFFFFD4AB), // Couleur de fond
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18), // Assurez-vous que cela correspond au Container
+            borderRadius: BorderRadius.circular(18),
           ),
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0), // Padding
           elevation: 0, // Supprime l'élévation
         ),
         child: SvgPicture.asset(
           asset,
-          height: 25, // Ajustez la hauteur selon vos besoins
+          height: 25,
         ),
       ),
     );
@@ -260,7 +263,9 @@ class _LoginFormState extends State<LoginForm> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const MyListingProduct(),
+          builder: (context) => NavigationMenu(
+            pages: PageManager.getPages(),
+          ),
         ),
       );
     }

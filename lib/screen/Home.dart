@@ -73,8 +73,7 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
                           builder: (context, constraints) {
                             return Image.asset(
                               "assets/images/logindecoration.png",
-                              width: constraints
-                                  .maxWidth, // Utilise la largeur maximale
+                              width: constraints.maxWidth, // largeur maximale
                               fit: BoxFit
                                   .cover, // Adapte l'image pour couvrir toute la largeur
                             );
@@ -181,7 +180,7 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
                 double bottomPosition = -MediaQuery.of(context).size.height *
                         0.9 *
                         (1 - _animation.value) -
-                    270; // Décalage supplémentaire pour enfoncer
+                    270; // Décalage supplémentaire pour enfoncer le formulaire
                 return Positioned(
                   left: 0,
                   right: 0,

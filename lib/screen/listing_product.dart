@@ -1,25 +1,7 @@
 import 'package:brico_voisin/model/product.dart';
 import 'package:brico_voisin/provider/product_provider.dart';
-import 'package:brico_voisin/widget/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-class MyListingProduct extends StatelessWidget {
-  const MyListingProduct({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationMenu(
-      pages: [
-        MyListingProductContent(),
-        const Center(child: Text("Favoris")),
-        const Center(child: Text("Locations")),
-        const Center(child: Text("Messages")),
-        const Center(child: Text("Profil")),
-      ],
-    );
-  }
-}
 
 class MyListingProductContent extends StatefulWidget {
   const MyListingProductContent({super.key});
