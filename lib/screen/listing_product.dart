@@ -1,6 +1,7 @@
 import 'package:brico_voisin/model/product.dart';
 import 'package:brico_voisin/provider/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class MyListingProductContent extends StatefulWidget {
@@ -21,7 +22,19 @@ class _MyListingProductContentState extends State<MyListingProductContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Products')),
+      appBar: AppBar(
+        title: const Text('Products'),
+        leading: IconButton(
+          icon: SvgPicture.asset(
+            'assets/images/arrow-left.svg',
+            width: 24,
+            height: 24,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Consumer<ProductProvider>(
         builder: (context, productProvider, child) {
           if (productProvider.isLoading) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:brico_voisin/theme/colors.dart'; // Importer MainColor
 
 class NavigationMenu extends StatefulWidget {
   final List<Widget> pages;
@@ -22,7 +23,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFB020),
+      backgroundColor: MainColor
+          .backgroundColor, // Utilisation de la couleur depuis MainColor
       body: Stack(
         children: [
           widget.pages[_selectedIndex],
@@ -34,7 +36,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 padding: const EdgeInsets.only(bottom: 0, left: 20, right: 30),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFECDA),
+                    color: MainColor
+                        .menuBackgroundColor, // Utilisation de la couleur depuis MainColor
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
@@ -61,7 +64,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                     child: BottomNavigationBar(
                       backgroundColor: Colors.transparent,
-                      selectedItemColor: Colors.black,
+                      selectedItemColor: MainColor
+                          .selectedItemColor, // Couleur sélectionnée depuis MainColor
                       unselectedItemColor: Colors.black,
                       showSelectedLabels: false, // Cacher le label par défaut
                       showUnselectedLabels: false, // Cacher le label par défaut
@@ -108,14 +112,18 @@ class _NavigationMenuState extends State<NavigationMenu> {
           children: [
             SvgPicture.asset(
               assetPath,
-              color: isSelected ? const Color(0xFFFFECDA) : Colors.black,
+              color: isSelected
+                  ? MainColor.selectedItemColor
+                  : Colors.black, // Couleur de l'icône sélectionnée
               height: 24,
             ),
             const SizedBox(height: 6),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? const Color(0xFFFFECDA) : Colors.black,
+                color: isSelected
+                    ? MainColor.selectedItemColor
+                    : Colors.black, // Couleur du texte sélectionné
                 fontSize: 11,
                 fontWeight: isSelected
                     ? FontWeight.bold
