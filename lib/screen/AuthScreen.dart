@@ -3,14 +3,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:brico_voisin/widget/delayed_animation.dart';
 
-class MyHome extends StatefulWidget {
-  const MyHome({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   @override
-  _MyHomeState createState() => _MyHomeState();
+  _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
+class _AuthScreenState extends State<AuthScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _showLogin = false;

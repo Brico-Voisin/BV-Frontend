@@ -1,5 +1,5 @@
 import 'package:brico_voisin/provider/product_provider.dart';
-import 'package:brico_voisin/screen/Home.dart';
+import 'package:brico_voisin/screen/AuthScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyHome(),
+      home: const AuthScreen(),
     );
   }
 }
