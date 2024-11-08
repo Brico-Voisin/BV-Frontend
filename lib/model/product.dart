@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Product {
   final int idProduct;
   final String nameProduct;
@@ -6,7 +8,7 @@ class Product {
   final double price;
   final DateTime createdAt;
   final List<String> imageProduct;
-  final String userId;
+  final dynamic userId;
 
   Product({
     required this.idProduct,
@@ -27,8 +29,16 @@ class Product {
       description: json['description'],
       price: json['price'].toDouble(),
       createdAt: DateTime.parse(json['created_at']),
-      imageProduct: List<String>.from(json['image_product']),
+      imageProduct: _extractImageUrls(json['image_product']),
       userId: json['userId'],
     );
+  }
+
+  static List<String> _extractImageUrls(dynamic imageProduct) {
+    if (imageProduct is String) {
+      final decoded = jsonDecode(imageProduct) as List<dynamic>;
+      return decoded.map((e) => e['image_product'] as String).toList();
+    }
+    return [];
   }
 }

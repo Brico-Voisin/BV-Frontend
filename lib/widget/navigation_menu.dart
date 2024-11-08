@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:brico_voisin/theme/colors.dart'; // Importer MainColor
+import 'package:brico_voisin/theme/colors.dart';
 
 class NavigationMenu extends StatefulWidget {
   final List<Widget> pages;
@@ -23,8 +23,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MainColor
-          .backgroundColor, // Utilisation de la couleur depuis MainColor
+      backgroundColor: MainColor.backgroundColor,
       body: Stack(
         children: [
           widget.pages[_selectedIndex],
@@ -36,8 +35,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 padding: const EdgeInsets.only(bottom: 0, left: 20, right: 30),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: MainColor
-                        .menuBackgroundColor, // Utilisation de la couleur depuis MainColor
+                    color: MainColor.menuBackgroundColor,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:brico_voisin/theme/theme_style.dart';
 
 class ProfilPage extends StatelessWidget {
   const ProfilPage({Key? key}) : super(key: key);
@@ -8,19 +9,35 @@ class ProfilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profil"),
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/images/arrow-left.svg',
-            width: 24,
-            height: 24,
+        backgroundColor: AppThemeStyles.appBarBackgroundColor,
+        title: Text(
+          "Profil",
+          style: AppThemeStyles.appBarTextStyle,
+        ),
+        leading: Transform.translate(
+          offset: const Offset(20, 0),
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/arrow-left.svg',
+              width: 32,
+              height: 32,
+              color: AppThemeStyles.appBarIconColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
       ),
-      body: const Center(child: Text("Contenu du Profil")),
+      body: Container(
+        decoration: AppThemeStyles.commonBackgroundDecoration,
+        child: Center(
+          child: Text(
+            "Contenu du Profil",
+            style: AppThemeStyles.generalTextStyle,
+          ),
+        ),
+      ),
     );
   }
 }
