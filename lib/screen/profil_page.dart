@@ -8,25 +8,43 @@ class ProfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppThemeStyles.appBarBackgroundColor,
-        title: Text(
-          "Profil",
-          style: AppThemeStyles.appBarTextStyle,
-        ),
-        leading: Transform.translate(
-          offset: const Offset(20, 0),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/arrow-left.svg',
-              width: 32,
-              height: 32,
-              color: AppThemeStyles.appBarIconColor,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(180),
+        child: Stack(
+          children: [
+            Container(
+              color: Color(0xFFFFECDA), // Couleur de fond
+              child: SvgPicture.asset(
+                'assets/images/top.svg',
+                fit: BoxFit.cover,
+                color: Color(0xFFFFDDBD), // Couleur de l'image SVG
+                width: double.infinity,
+                height: double.infinity,
+              ),
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+            AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                "Profil",
+                style: AppThemeStyles.appBarTextStyle,
+              ),
+              leading: Transform.translate(
+                offset: const Offset(20, 0),
+                child: IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/images/arrow-left.svg',
+                    width: 32,
+                    height: 32,
+                    color: AppThemeStyles.appBarIconColor,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: Container(
