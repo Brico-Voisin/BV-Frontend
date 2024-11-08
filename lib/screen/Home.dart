@@ -6,15 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:brico_voisin/theme/theme_style.dart';
 import 'package:brico_voisin/theme/colors.dart';
 
-class MyListingProductContent extends StatefulWidget {
-  const MyListingProductContent({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  _MyListingProductContentState createState() =>
-      _MyListingProductContentState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyListingProductContentState extends State<MyListingProductContent> {
+class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
