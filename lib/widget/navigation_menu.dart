@@ -40,7 +40,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
-                    border: Border(
+                    border: const Border(
                       top: BorderSide(
                           color: Colors.black, width: 4), // Bordure en haut
                       left: BorderSide(
@@ -49,11 +49,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
                           color: Colors.black, width: 4), // Bordure à droite
                       // Pas de bordure inférieure
                     ),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black,
                         blurRadius: 0,
-                        offset: const Offset(12, 12), // Ombre
+                        offset: Offset(12, 12), // Ombre
                       ),
                     ],
                   ),

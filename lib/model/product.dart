@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Product {
   final int idProduct;
   final String nameProduct;

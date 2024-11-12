@@ -187,7 +187,7 @@ class _AuthScreenState extends State<AuthScreen>
                   right: 0,
                   bottom: bottomPosition,
                   height: MediaQuery.of(context).size.height * 0.9,
-                  child: ClipRRect(
+                  child: const ClipRRect(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20)),
                     child: LoginForm(),

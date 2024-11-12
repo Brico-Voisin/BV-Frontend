@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:brico_voisin/theme/theme_style.dart';
 
 class LocationsPage extends StatelessWidget {
-  const LocationsPage({Key? key}) : super(key: key);
+  const LocationsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +13,11 @@ class LocationsPage extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              color: Color(0xFFFFECDA), // Couleur de fond
+              color: const Color(0xFFFFECDA), // Couleur de fond
               child: SvgPicture.asset(
                 'assets/images/top.svg',
                 fit: BoxFit.cover,
-                color: Color(0xFFFFDDBD), // Couleur de l'image SVG
+                color: const Color(0xFFFFDDBD), // Couleur de l'image SVG
                 width: double.infinity,
                 height: double.infinity,
               ),

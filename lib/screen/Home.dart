@@ -31,11 +31,11 @@ class _HomeState extends State<Home> {
           children: [
             // Background SVG
             Container(
-              color: Color(0xFFFFECDA), // Couleur de fond
+              color: const Color(0xFFFFECDA), // Couleur de fond
               child: SvgPicture.asset(
                 'assets/images/top.svg',
                 fit: BoxFit.cover,
-                color: Color(0xFFFFDDBD), // Couleur de l'image SVG
+                color: const Color(0xFFFFDDBD), // Couleur de l'image SVG
                 width: double.infinity,
                 height: double.infinity,
               ),
@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                     height: 20,
                     color: AppThemeStyles.appBarIconColor,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   SvgPicture.asset(
                     'assets/images/Bricovoisins.svg',
                     width: 100,
@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                       height: 200,
                       enlargeCenterPage: false,
                       autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 8),
+                      autoPlayInterval: const Duration(seconds: 8),
                       viewportFraction: 0.8, // Ajuster la fraction de la vue
                       aspectRatio: 1,
                       enableInfiniteScroll:
@@ -120,11 +120,11 @@ class _HomeState extends State<Home> {
                                   bottom: -10,
                                   child: Text(
                                     product.nameProduct,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                       fontFamily: 'Roboto',
-                                      color: const Color.fromARGB(255, 0, 0, 0),
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                     ),
                                   ),
                                 ),
@@ -133,9 +133,9 @@ class _HomeState extends State<Home> {
                                   bottom: -30,
                                   child: Text(
                                     '${product.updatedAt.toLocal()}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
-                                      color: const Color.fromARGB(255, 0, 0, 0),
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                     ),
                                   ),
                                 ),
