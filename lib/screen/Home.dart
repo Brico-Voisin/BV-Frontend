@@ -24,18 +24,21 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final products = context.watch<ProductProvider>().products;
+
     return Scaffold(
+      backgroundColor: const Color(0xFFFFECDA), // Background couleur demandée
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(180),
         child: Stack(
           children: [
             // Background SVG
             Container(
-              color: const Color(0xFFFFECDA), // Couleur de fond
+              color: const Color(0xFFFFECDA),
               child: SvgPicture.asset(
                 'assets/images/top.svg',
                 fit: BoxFit.cover,
-                color: const Color(0xFFFFDDBD), // Couleur de l'image SVG
+                color: const Color(0xFFFFDDBD),
                 width: double.infinity,
                 height: double.infinity,
               ),
@@ -65,91 +68,107 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      body: Container(
-        decoration: AppThemeStyles.commonBackgroundDecoration,
-        child: Consumer<ProductProvider>(
-          builder: (context, productProvider, child) {
-            if (productProvider.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (productProvider.error.isNotEmpty) {
-              return Center(child: Text('Error: ${productProvider.error}'));
-            }
-            return Column(
-              children: [
-                Expanded(
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: 200,
-                      enlargeCenterPage: false,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 8),
-                      viewportFraction: 0.8, // Ajuster la fraction de la vue
-                      aspectRatio: 1,
-                      enableInfiniteScroll:
-                          false, // Désactive la boucle infinie
-                      initialPage: 0, // Commencer à partir du premier élément
-                    ),
-                    items: productProvider.products.map((product) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.all(15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  width: 200,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(
-                                      image: product.imageProduct.isNotEmpty
-                                          ? NetworkImage(
-                                              product.imageProduct[0])
-                                          : const AssetImage(
-                                              'assets/images/placeholder.png'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 10,
-                                  bottom: -10,
-                                  child: Text(
-                                    product.nameProduct,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                      fontFamily: 'Roboto',
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 10,
-                                  bottom: -30,
-                                  child: Text(
-                                    '${product.updatedAt.toLocal()}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 21), // Décale le texte "Aux alentours"
+              child: const Text(
+                'Aux alentours',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'AkiraExpanded', // Applique la police Akira
                 ),
-              ],
-            );
-          },
+              ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal, // Scroll horizontal
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 200, // Largeur fixe pour chaque produit
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: const Color(0xFFFFDDBD), // Fond du produit
+                            border: Border.all(
+                              color: Colors.black, // Bordure noire
+                              width: 2, // Épaisseur de la bordure
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(1),
+                                blurRadius: 0,
+                                offset:
+                                    Offset(4, 4), // Décalage de l'ombre (X, Y)
+                              ),
+                            ],
+                          ),
+                          margin: const EdgeInsets.only(
+                              left: 16), // Décale le carrousel à droite
+                          child: CarouselSlider(
+                            items: product.imageProduct.map((image) {
+                              return ClipRRect(
+                                child: Image.network(
+                                  image,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                              );
+                            }).toList(),
+                            options: CarouselOptions(
+                              height: 120,
+                              viewportFraction: 1,
+                              enableInfiniteScroll: true,
+                              autoPlay: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 18), // Décale le texte du produit à droite
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product.nameProduct,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${product.updatedAt.toLocal()}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
