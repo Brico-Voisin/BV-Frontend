@@ -1,12 +1,10 @@
-import 'dart:math';
 import 'package:brico_voisin/model/product.dart';
 import 'package:brico_voisin/provider/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:brico_voisin/theme/theme_style.dart';
-import 'package:brico_voisin/theme/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -22,12 +20,25 @@ class _HomeState extends State<Home> {
     Future.microtask(() => context.read<ProductProvider>().fetchProducts());
   }
 
+  void _onVoirPlusTap() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+          'Prochaine fonctionnalité : Vous pourrez bientôt explorer tous les produits !',
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.orangeAccent,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final products = context.watch<ProductProvider>().products;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFECDA), // Background couleur demandée
+      backgroundColor: const Color(0xFFFFECDA),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(180),
         child: Stack(
@@ -52,14 +63,14 @@ class _HomeState extends State<Home> {
                     'assets/images/icon.svg',
                     width: 20,
                     height: 20,
-                    color: AppThemeStyles.appBarIconColor,
+                    color: Colors.black,
                   ),
                   const SizedBox(width: 8),
                   SvgPicture.asset(
                     'assets/images/Bricovoisins.svg',
                     width: 100,
                     height: 18,
-                    color: AppThemeStyles.appBarIconColor,
+                    color: Colors.black,
                   ),
                 ],
               ),
@@ -69,94 +80,162 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(left: 42),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 21), // Décale le texte "Aux alentours"
-              child: const Text(
-                'Aux alentours',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'AkiraExpanded', // Applique la police Akira
-                ),
+              padding: const EdgeInsets.only(left: 0, right: 46),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Aux alentours',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'AkiraExpanded',
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _onVoirPlusTap,
+                    child: const Text(
+                      'Tout voir',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        decoration: TextDecoration.underline,
+                        color: Colors.black,
+                        fontFamily: 'Sora',
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                scrollDirection: Axis.horizontal, // Scroll horizontal
-                itemCount: products.length,
+                scrollDirection: Axis.horizontal,
+                itemCount: products.length > 7 ? 8 : products.length,
                 itemBuilder: (context, index) {
-                  final product = products[index];
+                  if (index == 7) {
+                    // Case "Voir plus"
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: GestureDetector(
+                        onTap: _onVoirPlusTap,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 200,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: const Color(0xFFFFDDBD),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(1),
+                                    blurRadius: 0,
+                                    offset: const Offset(4, 4),
+                                  ),
+                                ],
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Voir plus',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.black,
+                                    fontFamily: 'Sora',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
 
+                  // Affichage des produits normaux
+                  final product = products[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.only(right: 42),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 200, // Largeur fixe pour chaque produit
+                          width: 200,
                           height: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: const Color(0xFFFFDDBD), // Fond du produit
+                            color: const Color(0xFFFFDDBD),
                             border: Border.all(
-                              color: Colors.black, // Bordure noire
-                              width: 2, // Épaisseur de la bordure
+                              color: Colors.black,
+                              width: 2,
                             ),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(1),
                                 blurRadius: 0,
-                                offset:
-                                    Offset(4, 4), // Décalage de l'ombre (X, Y)
+                                offset: const Offset(4, 4),
                               ),
                             ],
                           ),
-                          margin: const EdgeInsets.only(
-                              left: 16), // Décale le carrousel à droite
                           child: CarouselSlider(
                             items: product.imageProduct.map((image) {
                               return ClipRRect(
-                                child: Image.network(
-                                  image,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
+                                borderRadius: BorderRadius.circular(12),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(24.0),
+                                  child: Image.network(
+                                    image,
+                                    fit: BoxFit.contain,
+                                    width: double.infinity,
+                                  ),
                                 ),
                               );
                             }).toList(),
                             options: CarouselOptions(
-                              height: 120,
+                              height: 200,
                               viewportFraction: 1,
-                              enableInfiniteScroll: true,
+                              enableInfiniteScroll: false,
                               autoPlay: true,
                             ),
                           ),
                         ),
                         const SizedBox(height: 8),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 18), // Décale le texte du produit à droite
+                          padding: const EdgeInsets.only(left: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                product.nameProduct,
+                                product.nameProduct.length > 15
+                                    ? '${product.nameProduct.substring(0, 15)}...'
+                                    : product.nameProduct,
                                 style: const TextStyle(
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontFamily: 'Sora',
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                '${product.updatedAt.toLocal()}',
+                                DateFormat('dd/MM/yyyy à HH\'h\'')
+                                    .format(product.updatedAt.toLocal()),
                                 style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontFamily: 'Sora',
                                 ),
                               ),
                             ],
