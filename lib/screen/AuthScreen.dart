@@ -1,3 +1,4 @@
+import 'package:brico_voisin/screen/signUp.dart';
 import 'package:brico_voisin/widget/login_form.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -128,6 +129,12 @@ class _AuthScreenState extends State<AuthScreen>
                             ),
                             onPressed: () {
                               // Navigation vers la page d'inscription
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUp(),
+                              ),
+                            );
                             },
                           ),
                         ),
