@@ -89,8 +89,10 @@ flutter:
     - family: Sora
       fonts:
          - asset: assets/fonts/Sora.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+         - asset: assets/fonts/Sora-Bold.ttf
+           weight: 700
+         - asset: assets/fonts/Sora-ExtraBold.ttf
+           weight: 900
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

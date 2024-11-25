@@ -37,13 +37,22 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final products = context.watch<ProductProvider>().products;
 
+    final List<Map<String, String>> popularItems = [
+      {'svg': 'assets/images/tools.svg', 'label': 'Bricolage'},
+      {'svg': 'assets/images/garden.svg', 'label': 'Jardinage'},
+      {'svg': 'assets/images/forklift.svg', 'label': 'Transport'},
+      {'svg': 'assets/images/paint.svg', 'label': 'Peinture'},
+      {'svg': 'assets/images/big-hammer.svg', 'label': 'Gros Oeuvre'},
+      {'svg': 'assets/images/car-repare.svg', 'label': 'Méchanique Auto'},
+      {'svg': 'assets/images/saw.svg', 'label': 'Menuiserie'},
+    ];
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFECDA),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(180),
         child: Stack(
           children: [
-            // Background SVG
             Container(
               color: const Color(0xFFFFECDA),
               child: SvgPicture.asset(
@@ -85,6 +94,93 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
+              padding: const EdgeInsets.only(right: 46),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Populaire',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'AkiraExpanded',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 75,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: popularItems.length,
+                itemBuilder: (context, index) {
+                  final item = popularItems[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 18, bottom: 4),
+                    child: Container(
+                      // Pas de largeur fixe ici, laissez le container s'adapter au contenu
+                      constraints: BoxConstraints(
+                          maxWidth: 185), // Si vous voulez une largeur maximale
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: const Color(0xFFFFECDA),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(1),
+                            blurRadius: 0,
+                            offset: const Offset(4, 4),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisSize: MainAxisSize
+                              .min, // Réduit la largeur à la taille du contenu
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              item['svg']!,
+                              width: 35,
+                              height: 35,
+                              fit: BoxFit
+                                  .contain, // La taille du SVG sera contenue
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                item['label']!,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Sora',
+                                ),
+                                overflow: TextOverflow
+                                    .ellipsis, // Affiche "..." pour le texte trop long
+                                maxLines:
+                                    1, // Empêche le texte de s'étendre sur plusieurs lignes
+                                softWrap:
+                                    false, // Ne permet pas de retour à la ligne
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 16),
+            Padding(
               padding: const EdgeInsets.only(left: 0, right: 46),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +216,6 @@ class _HomeState extends State<Home> {
                 itemCount: products.length > 7 ? 8 : products.length,
                 itemBuilder: (context, index) {
                   if (index == 7) {
-                    // Case "Voir plus"
                     return Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: GestureDetector(
@@ -164,8 +259,6 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   }
-
-                  // Affichage des produits normaux
                   final product = products[index];
                   return Padding(
                     padding: const EdgeInsets.only(right: 42),

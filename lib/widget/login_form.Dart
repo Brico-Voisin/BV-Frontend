@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:brico_voisin/screen/AuthScreen.dart';
-import 'package:brico_voisin/screen/Home.dart';
+import 'package:brico_voisin/screen/home.dart';
 import 'package:brico_voisin/widget/navigation_menu.dart';
 import 'package:brico_voisin/utilities/page_manager.dart';
 
