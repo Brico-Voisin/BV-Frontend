@@ -4,49 +4,59 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductProvider with ChangeNotifier {
   List<Product> _products = [];
+  List<Product> _filteredProducts = [];
   bool _isLoading = false;
   String _error = '';
 
-  List<Product> get products => _products;
+  List<Product> get products =>
+      _filteredProducts.isEmpty ? _products : _filteredProducts;
   bool get isLoading => _isLoading;
   String get error => _error;
 
   final SupabaseClient _supabaseClient = Supabase.instance.client;
 
+  // Récupérer tous les produits depuis la base de données
   Future<void> fetchProducts() async {
-    _isLoading = true;
-    _error = '';
-    notifyListeners();
+    _setLoading(true);
+    _resetError();
 
     try {
       final response = await _supabaseClient.from('products').select();
 
-      _products =
-          (response as List).map((item) => Product.fromJson(item)).toList();
+      if (response != null && response is List) {
+        _products = response.map((item) => Product.fromJson(item)).toList();
+        _filteredProducts = _products; // Au départ, on montre tous les produits
+      } else {
+        throw 'Aucun produit trouvé';
+      }
     } catch (e) {
-      _error = e.toString();
+      _setError(e.toString());
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
-  Future<void> fetchProductsByUser(String userId) async {
-    _isLoading = true;
+  // Filtrer les produits par thème
+  void setFilterByTheme(String theme) {
+    _filteredProducts = _products.where((product) {
+      return product.theme.contains(theme); // Filtrer si le thème correspond
+    }).toList();
+    notifyListeners();
+  }
+
+  // Méthodes auxiliaires pour gérer l'état
+  void _setLoading(bool isLoading) {
+    _isLoading = isLoading;
+    notifyListeners();
+  }
+
+  void _resetError() {
     _error = '';
     notifyListeners();
+  }
 
-    try {
-      final response =
-          await _supabaseClient.from('products').select().eq('userId', userId);
-
-      _products =
-          (response as List).map((item) => Product.fromJson(item)).toList();
-    } catch (e) {
-      _error = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+  void _setError(String error) {
+    _error = error;
+    notifyListeners();
   }
 }

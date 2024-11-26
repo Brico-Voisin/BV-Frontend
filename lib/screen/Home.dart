@@ -14,6 +14,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String selectedTheme = '';
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +33,18 @@ class _HomeState extends State<Home> {
         duration: const Duration(seconds: 3),
       ),
     );
+  }
+
+  void _toggleTheme(String theme) {
+    setState(() {
+      if (selectedTheme == theme) {
+        selectedTheme = '';
+      } else {
+        selectedTheme = theme;
+      }
+    });
+
+    context.read<ProductProvider>().setFilterByTheme(selectedTheme);
   }
 
   @override
@@ -84,6 +98,61 @@ class _HomeState extends State<Home> {
                 ],
               ),
               leading: Container(),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.filter_list),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Filtrer par thème'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                title: Text('Retirez les filtres'),
+                                onTap: () {
+                                  _toggleTheme('');
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                title: Text('Jardinage'),
+                                onTap: () {
+                                  _toggleTheme('Jardinage');
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                title: Text('Menuiserie'),
+                                onTap: () {
+                                  _toggleTheme('Menuiserie');
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                title: Text('Peinture'),
+                                onTap: () {
+                                  _toggleTheme('Peinture');
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                title: Text('Bricolage'),
+                                onTap: () {
+                                  _toggleTheme('Bricolage');
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -117,61 +186,65 @@ class _HomeState extends State<Home> {
                 itemCount: popularItems.length,
                 itemBuilder: (context, index) {
                   final item = popularItems[index];
+                  bool isSelected = item['label'] == selectedTheme;
                   return Padding(
                     padding: const EdgeInsets.only(right: 18, bottom: 4),
-                    child: Container(
-                      // Pas de largeur fixe ici, laissez le container s'adapter au contenu
-                      constraints: BoxConstraints(
-                          maxWidth: 185), // Si vous voulez une largeur maximale
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: const Color(0xFFFFECDA),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 2,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(1),
-                            blurRadius: 0,
-                            offset: const Offset(4, 4),
+                    child: GestureDetector(
+                      onTap: () {
+                        _toggleTheme(item['label']!);
+                      },
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: 185),
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: isSelected
+                              ? Colors.orange
+                              : const Color(0xFFFFECDA),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2,
                           ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisSize: MainAxisSize
-                              .min, // Réduit la largeur à la taille du contenu
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              item['svg']!,
-                              width: 35,
-                              height: 35,
-                              fit: BoxFit
-                                  .contain, // La taille du SVG sera contenue
-                            ),
-                            const SizedBox(width: 4),
-                            Expanded(
-                              child: Text(
-                                item['label']!,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'Sora',
-                                ),
-                                overflow: TextOverflow
-                                    .ellipsis, // Affiche "..." pour le texte trop long
-                                maxLines:
-                                    1, // Empêche le texte de s'étendre sur plusieurs lignes
-                                softWrap:
-                                    false, // Ne permet pas de retour à la ligne
-                                textAlign: TextAlign.center,
-                              ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(1),
+                              blurRadius: 0,
+                              offset: const Offset(4, 4),
                             ),
                           ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                item['svg']!,
+                                width: 35,
+                                height: 35,
+                                fit: BoxFit.contain,
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  item['label']!,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Sora',
+                                    color: isSelected
+                                        ? Colors.black
+                                        : Colors.black,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -179,7 +252,7 @@ class _HomeState extends State<Home> {
                 },
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 60),
             Padding(
               padding: const EdgeInsets.only(left: 0, right: 46),
               child: Row(
@@ -241,17 +314,10 @@ class _HomeState extends State<Home> {
                                   ),
                                 ],
                               ),
-                              child: const Center(
-                                child: Text(
-                                  'Voir plus',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.black,
-                                    fontFamily: 'Sora',
-                                  ),
-                                ),
+                              child: const Icon(
+                                Icons.add,
+                                size: 40,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -261,7 +327,7 @@ class _HomeState extends State<Home> {
                   }
                   final product = products[index];
                   return Padding(
-                    padding: const EdgeInsets.only(right: 42),
+                    padding: const EdgeInsets.only(right: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
