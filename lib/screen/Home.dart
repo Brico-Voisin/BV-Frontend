@@ -122,37 +122,78 @@ class _HomeState extends State<Home> {
         preferredSize: const Size.fromHeight(100),
         child: Stack(
           children: [
-            Container(
-              color: const Color(0xFFFFECDA),
-              child: SvgPicture.asset(
-                'assets/images/top.svg',
-                fit: BoxFit.cover,
-                color: const Color(0xFFFFDDBD),
-                width: double.infinity,
-                height: double.infinity,
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 800,
+                alignment: Alignment.topCenter,
+                child: SvgPicture.asset(
+                  'assets/images/top.svg',
+                  fit: BoxFit.cover,
+                  color: const Color(0xFFFFDDBD),
+                  width: 500,
+                  height: 300,
+                ),
               ),
             ),
-            AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/icon.svg',
-                    width: 20,
-                    height: 20,
-                    color: Colors.black,
-                  ),
-                  const SizedBox(width: 8),
-                  SvgPicture.asset(
-                    'assets/images/Bricovoisins.svg',
-                    width: 100,
-                    height: 18,
-                    color: Colors.black,
-                  ),
-                ],
+            Positioned(
+              top: 45,
+              left: 0,
+              right: 0,
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                leading: SizedBox.shrink(),
+                leadingWidth: 0,
+                title: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/icon.svg',
+                            width: 20,
+                            height: 20,
+                            color: Colors.black,
+                          ),
+                          const SizedBox(width: 4),
+                          SvgPicture.asset(
+                            'assets/images/Bricovoisins.svg',
+                            width: 100,
+                            height: 18,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 2),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/notification.svg',
+                            width: 25,
+                            height: 25,
+                            color: Colors.black,
+                          ),
+                          const SizedBox(width: 8),
+                          SvgPicture.asset(
+                            'assets/images/like.svg',
+                            width: 25,
+                            height: 25,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              leading: Container(),
             ),
           ],
         ),
@@ -173,7 +214,7 @@ class _HomeState extends State<Home> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(1), // Ombre noire
-                          offset: const Offset(4, 4), // Décalage de l'ombre
+                          offset: const Offset(2, 2), // Décalage de l'ombre
                           blurRadius: 0, // Pas de flou
                         ),
                       ],
@@ -274,7 +315,7 @@ class _HomeState extends State<Home> {
                             BoxShadow(
                               color: Colors.black.withOpacity(1),
                               blurRadius: 0,
-                              offset: const Offset(4, 4),
+                              offset: const Offset(2, 2),
                             ),
                           ],
                         ),
