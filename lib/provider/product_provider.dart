@@ -7,6 +7,7 @@ class ProductProvider with ChangeNotifier {
   List<Product> _filteredProducts = [];
   bool _isLoading = false;
   String _error = '';
+  String _searchQuery = ''; // Nouveau champ pour la recherche
 
   List<Product> get products =>
       _filteredProducts.isEmpty ? _products : _filteredProducts;
@@ -15,7 +16,6 @@ class ProductProvider with ChangeNotifier {
 
   final SupabaseClient _supabaseClient = Supabase.instance.client;
 
-  // Récupérer tous les produits depuis la base de données
   Future<void> fetchProducts() async {
     _setLoading(true);
     _resetError();
@@ -25,7 +25,7 @@ class ProductProvider with ChangeNotifier {
 
       if (response != null && response is List) {
         _products = response.map((item) => Product.fromJson(item)).toList();
-        _filteredProducts = _products; // Au départ, on montre tous les produits
+        _applyFilters(); // Appliquer les filtres après avoir chargé les produits
       } else {
         throw 'Aucun produit trouvé';
       }
@@ -38,9 +38,31 @@ class ProductProvider with ChangeNotifier {
 
   // Filtrer les produits par thème
   void setFilterByTheme(String theme) {
+    _searchQuery =
+        ''; // Réinitialise la recherche lors de la sélection d'un thème
     _filteredProducts = _products.where((product) {
-      return product.theme.contains(theme); // Filtrer si le thème correspond
+      return product.theme.contains(theme);
     }).toList();
+    notifyListeners();
+  }
+
+  // Filtrer les produits par recherche
+  void setSearchQuery(String query) {
+    _searchQuery = query;
+    _applyFilters();
+  }
+
+  // Applique les filtres en fonction du thème et de la recherche
+  void _applyFilters() {
+    if (_searchQuery.isEmpty) {
+      _filteredProducts = _products;
+    } else {
+      _filteredProducts = _products.where((product) {
+        return product.nameProduct
+            .toLowerCase()
+            .contains(_searchQuery.toLowerCase());
+      }).toList();
+    }
     notifyListeners();
   }
 

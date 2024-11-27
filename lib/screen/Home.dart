@@ -47,6 +47,61 @@ class _HomeState extends State<Home> {
     context.read<ProductProvider>().setFilterByTheme(selectedTheme);
   }
 
+  void _onSearchChanged(String query) {
+    context.read<ProductProvider>().setSearchQuery(query);
+  }
+
+  void _showFilterDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Filtrer par thème'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Retirez les filtres'),
+                onTap: () {
+                  _toggleTheme('');
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Jardinage'),
+                onTap: () {
+                  _toggleTheme('Jardinage');
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Menuiserie'),
+                onTap: () {
+                  _toggleTheme('Menuiserie');
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Peinture'),
+                onTap: () {
+                  _toggleTheme('Peinture');
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Bricolage'),
+                onTap: () {
+                  _toggleTheme('Bricolage');
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final products = context.watch<ProductProvider>().products;
@@ -64,7 +119,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFECDA),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(180),
+        preferredSize: const Size.fromHeight(100),
         child: Stack(
           children: [
             Container(
@@ -98,87 +153,97 @@ class _HomeState extends State<Home> {
                 ],
               ),
               leading: Container(),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.filter_list),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('Filtrer par thème'),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ListTile(
-                                title: Text('Retirez les filtres'),
-                                onTap: () {
-                                  _toggleTheme('');
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ListTile(
-                                title: Text('Jardinage'),
-                                onTap: () {
-                                  _toggleTheme('Jardinage');
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ListTile(
-                                title: Text('Menuiserie'),
-                                onTap: () {
-                                  _toggleTheme('Menuiserie');
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ListTile(
-                                title: Text('Peinture'),
-                                onTap: () {
-                                  _toggleTheme('Peinture');
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ListTile(
-                                title: Text('Bricolage'),
-                                onTap: () {
-                                  _toggleTheme('Bricolage');
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
             ),
           ],
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 42),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 46),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Populaire',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'AkiraExpanded',
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.black, width: 2),
+                      color: const Color(0xFFFFECDA),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(1), // Ombre noire
+                          offset: const Offset(4, 4), // Décalage de l'ombre
+                          blurRadius: 0, // Pas de flou
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SvgPicture.asset(
+                            'assets/images/search.svg',
+                            width: 20,
+                            height: 20,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        Expanded(
+                          child: TextField(
+                            onChanged: _onSearchChanged,
+                            style: TextStyle(
+                              color: const Color(
+                                  0xFF404040), // Couleur du texte saisi
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Recherche',
+                              hintStyle: TextStyle(
+                                color: const Color(
+                                    0xFF404040), // Couleur du texte du hint
+                              ),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 55,
+                          width: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(16),
+                              bottomRight: Radius.circular(16),
+                            ),
+                          ),
+                          child: IconButton(
+                            icon: SvgPicture.asset(
+                              'assets/images/filter.svg',
+                              width: 24,
+                              height: 24,
+                              fit: BoxFit.contain,
+                            ),
+                            onPressed: _showFilterDialog,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 45),
+            // Section Populaire
+            const Text(
+              'Populaire',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'AkiraExpanded',
               ),
             ),
             const SizedBox(height: 16),
+            // Liste des éléments populaires
             SizedBox(
               height: 75,
               child: ListView.builder(
@@ -199,7 +264,7 @@ class _HomeState extends State<Home> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           color: isSelected
-                              ? Colors.orange
+                              ? const Color(0xFFFFD4AB)
                               : const Color(0xFFFFECDA),
                           border: Border.all(
                             color: Colors.black,
@@ -336,7 +401,7 @@ class _HomeState extends State<Home> {
                           height: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: const Color(0xFFFFDDBD),
+                            color: Colors.white,
                             border: Border.all(
                               color: Colors.black,
                               width: 2,

@@ -24,7 +24,6 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    // Conversion des champs JSON en List<String> pour imageProduct et theme
     var images = List<String>.from(json['image_product'] ?? []);
     var theme = List<String>.from(json['theme_product'] ?? []);
     return Product(
