@@ -1,3 +1,4 @@
+import 'package:brico_voisin/screen/verificationCode.Dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -41,8 +42,13 @@ class _SignUpState extends State<SignUp> {
           const SnackBar(content: Text('Inscription réussie !')),
         );
 
-        // Redirigez ou naviguez vers une autre page après l'inscription
-        Navigator.pushReplacementNamed(context, '/home');
+        // Rediriger vers l'écran de vérification du code
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VerificationCodeScreen(email: email,),
+        ),
+      );
       } else {
         throw Exception('Erreur lors de l\'inscription : $response.error');
       }
