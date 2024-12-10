@@ -4,6 +4,8 @@ import 'package:brico_voisin/screen/AuthScreen.dart';
 import 'package:brico_voisin/screen/home.dart';
 import 'package:brico_voisin/widget/navigation_menu.dart';
 import 'package:brico_voisin/utilities/page_manager.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 
 
 class LoginForm extends StatefulWidget {
@@ -161,7 +163,7 @@ class _LoginFormState extends State<LoginForm> {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Colors.black, width: 2),
         boxShadow: [
-          BoxShadow(
+           BoxShadow(
             color: Colors.black,
             blurRadius: 0,
             offset: const Offset(3, 3),
@@ -256,18 +258,47 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print('Email: $_email, Password: $_password');
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NavigationMenu(
-            pages: PageManager.getPages(),
-          ),
-        ),
-      );
+
+      try {
+        final response = await Supabase.instance.client.auth.signInWithPassword(
+          email: _email,
+          password: _password,
+        );
+
+        if (response.user != null) {
+          if (response.user!.emailConfirmedAt != null) {
+            print('Email confirmed at: ${response.user!.id}');
+            // L'utilisateur est confirmé
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigationMenu(
+                  pages: PageManager.getPages(),
+                ),
+              ),
+            );
+          }
+        }
+      } catch (e) {
+        final errorMessage = e.toString();
+        if (errorMessage.contains('Invalid login credentials')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('E-mail ou mot de passe incorrect.')),
+          );
+        } else if (errorMessage.contains('Email not confirmed')) 
+         {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Veuillez confirmer votre adresse e-mail.')),
+          );
+         } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erreur: $errorMessage')),
+          );
+        }
+      }
     }
   }
 }
