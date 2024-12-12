@@ -270,7 +270,7 @@ class _LoginFormState extends State<LoginForm> {
 
         if (response.user != null) {
           if (response.user!.emailConfirmedAt != null) {
-            print('Email confirmed at: ${response.user!.id}');
+
             // L'utilisateur est confirmé
             Navigator.push(
               context,
