@@ -33,7 +33,6 @@ class _SignUpState extends State<SignUp> {
 
     try {
       final response = await supabase.auth.signUp(email: email, password: password);
-
       if (response.user != null) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Inscription réussie !')));
         Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationCodeScreen(email: email)));
@@ -48,7 +47,6 @@ class _SignUpState extends State<SignUp> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +71,8 @@ class _SignUpState extends State<SignUp> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: SingleChildScrollView(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               
@@ -156,20 +155,40 @@ class _SignUpState extends State<SignUp> {
               ),
               const SizedBox(height: 150),
               _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFA0522D), // Button color
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        ),
-                        onPressed: _signUp,
-                        child: const Text('Suivant', style: TextStyle(color: Colors.white)),
-                      ),
+            ? const Center(child: CircularProgressIndicator())
+            : Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Colors.black, width: 1),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 0,
+                      offset: Offset(3, 3),
                     ),
+                  ],
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    onPressed: _signUp,
+                    child: const Text(
+                      'Suivant',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
             ],
-          ),
+          ),),
         ),
       ),
     );

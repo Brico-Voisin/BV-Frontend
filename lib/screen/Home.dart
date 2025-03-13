@@ -1,5 +1,6 @@
 import 'package:brico_voisin/model/product.dart';
 import 'package:brico_voisin/provider/product_provider.dart';
+import 'package:brico_voisin/screen/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -24,13 +25,13 @@ class _HomeState extends State<Home> {
 
   void _onVoirPlusTap() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text(
+      const SnackBar(
+        content: Text(
           'Prochaine fonctionnalité : Vous pourrez bientôt explorer tous les produits !',
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.orangeAccent,
-        duration: const Duration(seconds: 3),
+        duration: Duration(seconds: 3),
       ),
     );
   }
@@ -146,7 +147,7 @@ class _HomeState extends State<Home> {
               child: AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                leading: SizedBox.shrink(),
+                leading: const SizedBox.shrink(),
                 leadingWidth: 0,
                 title: Row(
                   children: [
@@ -170,7 +171,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 2),
                       child: Row(
@@ -233,14 +234,14 @@ class _HomeState extends State<Home> {
                         Expanded(
                           child: TextField(
                             onChanged: _onSearchChanged,
-                            style: TextStyle(
-                              color: const Color(
+                            style: const TextStyle(
+                              color: Color(
                                   0xFF404040), // Couleur du texte saisi
                             ),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Recherche',
                               hintStyle: TextStyle(
-                                color: const Color(
+                                color: Color(
                                     0xFF404040), // Couleur du texte du hint
                               ),
                               border: InputBorder.none,
@@ -250,8 +251,8 @@ class _HomeState extends State<Home> {
                         Container(
                           height: 55,
                           width: 48,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
                               topRight: Radius.circular(16),
                               bottomRight: Radius.circular(16),
                             ),
@@ -300,7 +301,7 @@ class _HomeState extends State<Home> {
                         _toggleTheme(item['label']!);
                       },
                       child: Container(
-                        constraints: BoxConstraints(maxWidth: 185),
+                        constraints: const BoxConstraints(maxWidth: 185),
                         height: 60,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
@@ -398,7 +399,7 @@ class _HomeState extends State<Home> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: GestureDetector(
-                        onTap: _onVoirPlusTap,
+                        onTap: _onVoirPlusTap,                     
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -432,7 +433,18 @@ class _HomeState extends State<Home> {
                     );
                   }
                   final product = products[index];
-                  return Padding(
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetails(
+                            productId: product.idProduct.toString(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Padding(
                     padding: const EdgeInsets.only(right: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -508,7 +520,8 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     ),
-                  );
+                   ),
+                  ); 
                 },
               ),
             ),

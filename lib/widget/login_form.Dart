@@ -9,7 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -38,11 +38,11 @@ class _LoginFormState extends State<LoginForm> {
             color: Colors.black,
             width: 4,
           ),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black,
               blurRadius: 0,
-              offset: const Offset(10, 15),
+              offset: Offset(10, 15),
             ),
           ],
         ),
@@ -162,11 +162,11 @@ class _LoginFormState extends State<LoginForm> {
         color: const Color(0xFFFFECDA),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Colors.black, width: 2),
-        boxShadow: [
+        boxShadow: const [
            BoxShadow(
             color: Colors.black,
             blurRadius: 0,
-            offset: const Offset(3, 3),
+            offset: Offset(3, 3),
           ),
         ],
       ),
@@ -193,23 +193,15 @@ class _LoginFormState extends State<LoginForm> {
         color: const Color(0xFFFF5935),
         borderRadius: BorderRadius.circular(18), // Bordure arrondie
         border: Border.all(color: Colors.black, width: 2), // Bordure noire
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black,
             blurRadius: 0,
-            offset: const Offset(3, 3), // Ombre
+            offset: Offset(3, 3), // Ombre
           ),
         ],
       ),
       child: ElevatedButton(
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold, // Mettre le texte en gras
-            color: Colors.black, // Couleur du texte en noir
-          ),
-        ),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFFFF5935), // Couleur de fond
@@ -218,6 +210,14 @@ class _LoginFormState extends State<LoginForm> {
           ),
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 100), // Padding
           elevation: 0,
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold, // Mettre le texte en gras
+            color: Colors.black, // Couleur du texte en noir
+          ),
         ),
       ),
     );
@@ -232,11 +232,11 @@ class _LoginFormState extends State<LoginForm> {
         color: const Color(0xFFFFD4AB),
         borderRadius: BorderRadius.circular(18), // Bordure arrondie
         border: Border.all(color: Colors.black, width: 2), // Bordure noire
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black,
             blurRadius: 0,
-            offset: const Offset(3, 3), // Ombre
+            offset: Offset(3, 3), // Ombre
           ),
         ],
       ),
