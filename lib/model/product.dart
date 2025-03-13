@@ -9,6 +9,8 @@ class Product {
   final List<String> imageProduct;
   final List<String> theme;
   final dynamic userId;
+  final String? firstname_user; 
+  final String? lastname_user;
 
   Product({
     required this.idProduct,
@@ -21,11 +23,17 @@ class Product {
     required this.imageProduct,
     required this.theme,
     required this.userId,
+    this.firstname_user,       
+    this.lastname_user, 
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     var images = List<String>.from(json['image_product'] ?? []);
     var theme = List<String>.from(json['theme_product'] ?? []);
+
+
+    Map<String, dynamic>? userData = json['users'];
+
     return Product(
       idProduct: json['id_product'],
       nameProduct: json['name_product'],
@@ -37,6 +45,8 @@ class Product {
       imageProduct: images,
       theme: theme,
       userId: json['userId'].toString(),
+      firstname_user: userData?['firstname_user'],
+      lastname_user: userData?['lastname_user'],
     );
   }
 

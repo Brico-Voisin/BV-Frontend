@@ -23,16 +23,34 @@ class ProductProvider with ChangeNotifier {
     try {
       final response = await _supabaseClient.from('products').select();
 
-      if (response != null && response is List) {
-        _products = response.map((item) => Product.fromJson(item)).toList();
-        _applyFilters(); // Appliquer les filtres après avoir chargé les produits
-      } else {
-        throw 'Aucun produit trouvé';
-      }
-    } catch (e) {
+      _products = response.map((item) => Product.fromJson(item)).toList();
+      _applyFilters(); // Appliquer les filtres après avoir chargé les produits
+        } catch (e) {
       _setError(e.toString());
     } finally {
       _setLoading(false);
+    }
+  }
+
+  Future<Product?> fetchProductById(String productId) async {
+    try {
+      final response = await _supabaseClient
+          .from('products')
+          .select('''
+          *,
+          users:userId (
+            firstname_user,
+            lastname_user
+          )
+        ''')
+          .eq('id_product', productId)
+          .single();
+      
+      return Product.fromJson(response);
+          return null;
+    } catch (e) {
+      _error = e.toString();
+      return null;
     }
   }
 
@@ -81,4 +99,7 @@ class ProductProvider with ChangeNotifier {
     _error = error;
     notifyListeners();
   }
+
+
+  
 }
