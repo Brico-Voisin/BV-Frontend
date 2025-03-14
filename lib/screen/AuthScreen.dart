@@ -105,18 +105,28 @@ class _AuthScreenState extends State<AuthScreen>
                           margin: const EdgeInsets.symmetric(
                               vertical: 24, horizontal: 24),
                           width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFD4AB),
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(color: Colors.black, width: 2),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black,
+                                blurRadius: 0,
+                                offset: Offset(3, 3),
+                              ),
+                            ],
+                          ),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFFD4AB),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                side: const BorderSide(
-                                    color: Colors.black, width: 2),
                               ),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 25, vertical: 15),
-                              shadowColor: Colors.black,
-                              elevation: 10,
+                              elevation:
+                                  0, // Pas d'élévation car nous utilisons notre propre ombre
                             ),
                             child: const Text(
                               'Inscrivez-vous',
@@ -128,13 +138,12 @@ class _AuthScreenState extends State<AuthScreen>
                               ),
                             ),
                             onPressed: () {
-                              // Navigation vers la page d'inscription
                               Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUp(),
-                              ),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignUp(),
+                                ),
+                              );
                             },
                           ),
                         ),
