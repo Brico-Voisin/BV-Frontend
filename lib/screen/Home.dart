@@ -1,6 +1,7 @@
 import 'package:brico_voisin/model/product.dart';
 import 'package:brico_voisin/provider/product_provider.dart';
 import 'package:brico_voisin/screen/ProductDetail.dart';
+import 'package:brico_voisin/screen/locationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -399,7 +400,14 @@ class _HomeState extends State<Home> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: GestureDetector(
-                        onTap: _onVoirPlusTap,                     
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LocationSlides(),
+                            ),
+                          );
+                        },                     
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
