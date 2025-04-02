@@ -7,7 +7,9 @@ class ProductProvider with ChangeNotifier {
   List<Product> _filteredProducts = [];
   bool _isLoading = false;
   String _error = '';
-  String _searchQuery = ''; // Nouveau champ pour la recherche
+  String _searchQuery = ''; 
+  String? _userLocation;
+  String? get userLocation => _userLocation;
 
   List<Product> get products =>
       _filteredProducts.isEmpty ? _products : _filteredProducts;
@@ -53,6 +55,74 @@ class ProductProvider with ChangeNotifier {
       return null;
     }
   }
+
+  Future<void> createProduct({
+    required String name,
+    required String category,
+    required String description,
+    required List<String> images,
+    required double price,
+  }) async {
+    try {
+      final supabase = Supabase.instance.client;
+      final currentUser = supabase.auth.currentUser;
+      
+      if (currentUser == null) {
+        throw Exception('Utilisateur non connecté');
+      }
+
+      // Créer le produit
+      await supabase.from('products').insert({
+        'name_product': name,
+        'theme_product': [category],
+        'description': description,
+        'image_product': images,
+        'user_id': currentUser.id,
+        'price': price,
+        'created_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      });
+
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Erreur lors de la création du produit: $e');
+    }
+  }
+
+  Future<void> fetchUserLocation() async {
+    try {
+      final supabase = Supabase.instance.client;
+      final authUser = supabase.auth.currentUser;
+      
+      if (authUser == null) {
+        throw Exception('Utilisateur non connecté');
+      } 
+
+      final mappingResponse = await supabase
+          .from('user_mapping')
+          .select('bigint_id')
+          .eq('uuid_id', authUser.id)
+          .limit(1)
+          .maybeSingle();
+
+
+      final bigintId = mappingResponse?['bigint_id'];
+
+      final userInfo = await supabase
+          .from('users')
+          .select('adress_user')
+          .eq('id_user', bigintId)
+          .single();
+
+
+      _userLocation = userInfo['adress_user'];
+      notifyListeners();
+    } catch (e) {
+      print('Erreur détaillée: $e'); 
+      throw Exception('Erreur lors de la récupération de l\'adresse: $e');
+    }
+  }
+
 
   // Filtrer les produits par thème
   void setFilterByTheme(String theme) {
